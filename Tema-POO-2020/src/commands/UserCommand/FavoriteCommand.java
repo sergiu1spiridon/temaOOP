@@ -22,7 +22,7 @@ public class FavoriteCommand {
         return instance;
     }
 
-    public static void addFavorite(User user, Video video) {
+    public void addFavorite(User user, Video video) {
         if (user == null || video == null)
             return;
         Map<String, Integer> viewedVids = user.getViewedVideos();

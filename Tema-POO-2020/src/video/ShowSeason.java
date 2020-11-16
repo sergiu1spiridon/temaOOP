@@ -5,12 +5,13 @@ import java.util.*;
 public class ShowSeason {
     private int currentSeason;
     private int duration;
-    private List<Double> rating;
+    private double rating;
+    private int numberOfRatings;
 
     public ShowSeason(int currentSeason, int duration, List<Double> rating) {
         this.currentSeason = currentSeason;
         this.duration = duration;
-        this.rating = rating;
+        this.rating = 0;
     }
 
     public int getCurrentSeason() {
@@ -29,11 +30,19 @@ public class ShowSeason {
         this.duration = duration;
     }
 
-    public List<Double> getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(List<Double> rating) {
+    public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public int getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(int numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
     }
 }

@@ -2,6 +2,8 @@ package video;
 
 import actor.Actor;
 import commands.UserCommand.FavoriteCommand;
+import commands.UserCommand.RatingCommand;
+import commands.UserCommand.ViewCommand;
 import entertainment.Season;
 import fileio.*;
 import user.User;
@@ -82,11 +84,43 @@ public class Database {
     }
 
     private void getCommands(Input input) {
+        String videoName, userName;
         for(ActionInputData action:input.getCommands()) {
-            if (action.getActionType() == "command" && action.getType() == "favorite") {
-                String videoName = action.getTitle();
-                String userName = action.getUsername();
-                FavoriteCommand.addFavorite(usersArray.get(userName), videosArray.get(videoName));
+            if (action.getActionType().equals("command")) {
+
+                String actionType = action.getType();
+
+                if (actionType != null) {
+                    switch (actionType) {
+                        case "favorite" -> {
+                            videoName = action.getTitle();
+                            userName = action.getUsername();
+                            FavoriteCommand.getInstance().addFavorite(usersArray.get(userName),
+                                    videosArray.get(videoName));
+                            System.out.println("In favorite");
+                        }
+                        case "view" -> {
+                            videoName = action.getTitle();
+                            userName = action.getUsername();
+                            ViewCommand.getInstance().addView(usersArray.get(userName),
+                                    videosArray.get(videoName));
+                            System.out.println("In view");
+                        }
+                        default -> {
+                            videoName = action.getTitle();
+                            userName = action.getUsername();
+                            if (action.getSeasonNumber() == 0) {
+                                RatingCommand.getInstance().addRating(usersArray.get(userName),
+                                        videosArray.get(videoName), action.getGrade());
+                                System.out.println(action.getSeasonNumber());
+                            } else {
+                                RatingCommand.getInstance().addRating(usersArray.get(userName),
+                                        videosArray.get(videoName), action.getGrade(), action.getSeasonNumber());
+                                System.out.println(action.getSeasonNumber());
+                            }
+                        }
+                    }
+                }
             }
         }
     }

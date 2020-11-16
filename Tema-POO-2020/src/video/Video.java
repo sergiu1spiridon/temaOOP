@@ -7,6 +7,8 @@ public abstract class Video {
     private int year;
     ArrayList<String> genres;
     private int favored;
+    private double rating;
+    private int numberOfRatings;
 
     public Video(String name, int year, ArrayList<String> genres) {
         this.name = name;
@@ -44,6 +46,22 @@ public abstract class Video {
 
     public void setFavored(int favored) {
         this.favored = favored;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public int getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(int numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
     }
 
     @Override
