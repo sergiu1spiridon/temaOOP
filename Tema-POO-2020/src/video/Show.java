@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Show extends Video{
 
-    private ArrayList<Season> seasons;
+    private ArrayList<ShowSeason> showSeasons;
     private int numberOfSeasons;
 
-    public Show(String name, int year, ArrayList<String> genres, ArrayList<Season> seasons, int numberOfSeasons) {
+    public Show(String name, int year, ArrayList<String> genres, ArrayList<ShowSeason> showSeasons, int numberOfSeasons) {
         super(name, year, genres);
-        this.seasons = seasons;
+        this.showSeasons = showSeasons;
         this.numberOfSeasons = numberOfSeasons;
     }
 
-    public ArrayList<Season> getSeasons() {
-        return seasons;
+    public ArrayList<ShowSeason> getSeasons() {
+        return showSeasons;
     }
 
-    public void setSeasons(ArrayList<Season> seasons) {
-        this.seasons = seasons;
+    public void setSeasons(ArrayList<ShowSeason> showSeasons) {
+        this.showSeasons = showSeasons;
     }
 
     public int getNumberOfSeasons() {

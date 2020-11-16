@@ -2,50 +2,54 @@ package user;
 
 import video.Video;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-public abstract class User {
-    private boolean standard;
-    private boolean premium;
-    private HashMap<String, Video> favouriteVideos;
-    private HashMap<String, Video> viewedVideos;
+public class User {
+    String userName;
+    String submisionType;
+    private ArrayList<String> favouriteVideos;
+    private Map<String, Integer> viewedVideos;
 
-    public User(boolean standard, boolean premium, HashMap<String, Video> favouriteVideos, HashMap<String, Video> viewedVideos) {
-        this.standard = standard;
-        this.premium = premium;
+    public User(String userName, String submisionType, ArrayList<String> favouriteVideos, Map<String, Integer> viewedVideos) {
+        this.userName = userName;
+        this.submisionType = submisionType;
         this.favouriteVideos = favouriteVideos;
         this.viewedVideos = viewedVideos;
     }
 
-    public boolean isStandard() {
-        return standard;
+    public String getSubmisionType() {
+        return submisionType;
     }
 
-    public void setStandard(boolean standard) {
-        this.standard = standard;
+    public void setSubmisionType(String submisionType) {
+        this.submisionType = submisionType;
     }
 
-    public boolean isPremium() {
-        return premium;
-    }
-
-    public void setPremium(boolean premium) {
-        this.premium = premium;
-    }
-
-    public HashMap<String, Video> getFavouriteVideos() {
+    public ArrayList<String> getFavouriteVideos() {
         return favouriteVideos;
     }
 
-    public void setFavouriteVideos(HashMap<String, Video> favouriteVideos) {
+    public void setFavouriteVideos(ArrayList<String> favouriteVideos) {
         this.favouriteVideos = favouriteVideos;
     }
 
-    public HashMap<String, Video> getViewedVideos() {
+    public Map<String, Integer> getViewedVideos() {
         return viewedVideos;
     }
 
-    public void setViewedVideos(HashMap<String, Video> viewedVideos) {
+    public void setViewedVideos(Map<String, Integer> viewedVideos) {
         this.viewedVideos = viewedVideos;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", submisionType='" + submisionType + '\'' +
+                ", favouriteVideos=" + favouriteVideos +
+                ", viewedVideos=" + viewedVideos +
+                '}';
     }
 }

@@ -6,6 +6,7 @@ public abstract class Video {
     private String name;
     private int year;
     ArrayList<String> genres;
+    private int favored;
 
     public Video(String name, int year, ArrayList<String> genres) {
         this.name = name;
@@ -35,6 +36,14 @@ public abstract class Video {
 
     public void setGenres(ArrayList<String> genres) {
         this.genres = genres;
+    }
+
+    public int getFavored() {
+        return favored;
+    }
+
+    public void setFavored(int favored) {
+        this.favored = favored;
     }
 
     @Override

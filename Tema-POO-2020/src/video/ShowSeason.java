@@ -1,11 +1,13 @@
 package video;
 
-public class Season {
+import java.util.*;
+
+public class ShowSeason {
     private int currentSeason;
     private int duration;
-    private int rating;
+    private List<Double> rating;
 
-    public Season(int currentSeason, int duration, int rating) {
+    public ShowSeason(int currentSeason, int duration, List<Double> rating) {
         this.currentSeason = currentSeason;
         this.duration = duration;
         this.rating = rating;
@@ -27,11 +29,11 @@ public class Season {
         this.duration = duration;
     }
 
-    public int getRating() {
+    public List<Double> getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(List<Double> rating) {
         this.rating = rating;
     }
 }
