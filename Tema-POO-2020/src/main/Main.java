@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import video.Database;
 
 /**
  * The entry point to this homework. It runs the checker that tests your implentation.
@@ -71,6 +72,8 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
+        Database db = new Database(input);
+        db.initFields();
 
         fileWriter.closeJSON(arrayResult);
     }
