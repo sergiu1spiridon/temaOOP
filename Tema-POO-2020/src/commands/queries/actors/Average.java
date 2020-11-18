@@ -20,6 +20,7 @@ public class Average {
 
     public LinkedList<Actor> getRatingList(ArrayList<Actor> actorsArray, int ascending) {
         LinkedList<Actor> newList = new LinkedList<>();
+        newList.add(null);
         actorsArray.forEach(actor -> {
             Actor actorFromList;
             int i = 0;
@@ -27,25 +28,32 @@ public class Average {
                 actorFromList = newList.get(i);
                 if (actorFromList == null)
                     break;
-                if (actorFromList.getRating() * ascending < actor.getRating() * ascending) {
+                if ((actorFromList.getRating() * ascending) < (actor.getRating() * ascending)) {
                     i++;
                 }
-                if (actorFromList.getRating() == actor.getRating()) {
+                else if (actorFromList.getRating() == actor.getRating()) {
                     if (ascending == 1) {
                         if (actorFromList.getName().compareTo(actor.getName()) < 0) {
                             i++;
                         }
+                        else
+                            break;
                     }
                     else {
                         if (actorFromList.getName().compareTo(actor.getName()) > 0) {
                             i++;
                         }
+                        else
+                            break;
                     }
+                }
+                else {
+                    break;
                 }
             }
             newList.add(i, actor);
         });
-
+        newList.remove(null);
         return newList;
     }
 }

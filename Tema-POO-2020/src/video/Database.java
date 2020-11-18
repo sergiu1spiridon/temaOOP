@@ -5,14 +5,12 @@ import commands.UserCommand.FavoriteCommand;
 import commands.UserCommand.RatingCommand;
 import commands.UserCommand.ViewCommand;
 import commands.queries.actors.Average;
+import commands.queries.actors.Awards;
 import entertainment.Season;
 import fileio.*;
 import user.User;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class Database {
     Input input;
@@ -26,7 +24,6 @@ public class Database {
         this.input = input;
     }
     public void initFields() {
-        this.setUsersArray(input);
         this.setVideosArray(input);
         this.setUsersArray(input);
         this.setActorsArray(input);
@@ -40,7 +37,7 @@ public class Database {
             User myUser = new User(inputUser.getUsername(), inputUser.getSubscriptionType(),
                     inputUser.getFavoriteMovies(), inputUser.getHistory());
 
-            System.out.println(myUser);
+            //System.out.println(myUser);
             ViewedVideos inst = ViewedVideos.getInstance();
 
             Map<String, Integer> viewedByUser = myUser.getViewedVideos();
@@ -87,6 +84,8 @@ public class Database {
             Actor myActor = new Actor(inputActor.getName(), inputActor.getCareerDescription(),
                     inputActor.getFilmography(), inputActor.getAwards());
 
+            myActor.calculateNumberOfAwards();
+
             actorsArray.add(myActor);
         }
     }
@@ -105,14 +104,14 @@ public class Database {
                             userName = action.getUsername();
                             FavoriteCommand.getInstance().addFavorite(usersArray.get(userName),
                                     videosArray.get(videoName));
-                            System.out.println("In favorite");
+                            //System.out.println("In favorite");
                         }
                         case "view" -> {
                             videoName = action.getTitle();
                             userName = action.getUsername();
                             ViewCommand.getInstance().addView(usersArray.get(userName),
                                     videosArray.get(videoName));
-                            System.out.println("In view");
+                            //System.out.println("In view");
                         }
                         default -> {
                             videoName = action.getTitle();
@@ -123,23 +122,49 @@ public class Database {
                             } else {
                                 RatingCommand.getInstance().addRating(usersArray.get(userName),
                                         videosArray.get(videoName), action.getGrade(), action.getSeasonNumber());
-                                System.out.println(action.getSeasonNumber());
+                                //System.out.println(action.getSeasonNumber());
                             }
                         }
                     }
                 }
             }
             if (action.getActionType().equals("query")) {
-                String actionType = action.getType();
+                String objectType = action.getObjectType();
 
-                switch (actionType) {
-                    case "average" -> {
-                        actorsArray.forEach((actor -> actor.calculateRating(videosArray)));
-                        Average actorsAverage = Average.getInstance();
+                if(objectType!=null && objectType.equals("actors"))
+                {
+                    String actionType = action.getCriteria();
+                    if (actionType != null) {
+                        switch (actionType) {
+                            case "average" -> {
+                                int ascending = 1;
+                                if (action.getSortType().equals("desc"))
+                                    ascending = -1;
+                                actorsArray.forEach((actor -> actor.calculateRating(videosArray)));
+                                Average actorsAverage = Average.getInstance();
 
-                        LinkedList<Actor> actorLinkedList = actorsAverage.getRatingList(actorsArray, 1);
+                                LinkedList<Actor> actorLinkedList = actorsAverage.getRatingList(actorsArray, ascending);
+                                //System.out.println(actorLinkedList.size());
+                                actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getRating()));
+                            }
 
-                        actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getRating()));
+                            case "awards" -> {
+                                List<String> awardToSearch = action.getFilters().get(3);
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc"))
+                                    ascending = -1;
+
+                                Awards actorsAwards = Awards.getInstance();
+                                System.out.println();
+                                System.out.println(awardToSearch);
+
+                                LinkedList<Actor> actorLinkedList = actorsAwards.getAwardsList(actorsArray, awardToSearch, ascending);
+
+                                actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getNumberOfAwards() +
+                                        " " + actor.getAwards()));
+                            }
+                        }
                     }
                 }
             }
