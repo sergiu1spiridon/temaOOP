@@ -22,6 +22,6 @@ public class ViewCommand {
 
         user.getViewedVideos().put(video.getName(), viewCount + 1);
 
-        ViewedVideos.getInstance().addVideo(video.getName());
+        ViewedVideos.getInstance().addVideo(video.getName(), 1);
     }
 }

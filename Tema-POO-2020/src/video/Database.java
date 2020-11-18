@@ -4,12 +4,15 @@ import actor.Actor;
 import commands.UserCommand.FavoriteCommand;
 import commands.UserCommand.RatingCommand;
 import commands.UserCommand.ViewCommand;
+import commands.queries.actors.Average;
 import entertainment.Season;
 import fileio.*;
 import user.User;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class Database {
     Input input;
@@ -26,6 +29,7 @@ public class Database {
         this.setUsersArray(input);
         this.setVideosArray(input);
         this.setUsersArray(input);
+        this.setActorsArray(input);
         this.getCommands(input);
 
     }
@@ -38,6 +42,10 @@ public class Database {
 
             System.out.println(myUser);
             ViewedVideos inst = ViewedVideos.getInstance();
+
+            Map<String, Integer> viewedByUser = myUser.getViewedVideos();
+
+            viewedByUser.forEach((String k,Integer v) -> inst.addVideo(k, v));
 
             usersArray.put(inputUser.getUsername(), myUser);
         }
@@ -55,7 +63,7 @@ public class Database {
 
         for (SerialInputData inputShow:input.getSerials()
         ) {
-            ArrayList<ShowSeason> showSeasons = new ArrayList<ShowSeason>(0);
+            ArrayList<ShowSeason> showSeasons = new ArrayList<>(0);
             int currentseason = 0;
 
             for (Season inputShowSeason :inputShow.getSeasons()) {
@@ -73,7 +81,7 @@ public class Database {
     }
 
     private void setActorsArray(Input input) {
-        actorsArray = new ArrayList<Actor>(0);
+        actorsArray = new ArrayList<>(0);
 
         for (ActorInputData inputActor: input.getActors()) {
             Actor myActor = new Actor(inputActor.getName(), inputActor.getCareerDescription(),
@@ -112,13 +120,26 @@ public class Database {
                             if (action.getSeasonNumber() == 0) {
                                 RatingCommand.getInstance().addRating(usersArray.get(userName),
                                         videosArray.get(videoName), action.getGrade());
-                                System.out.println(action.getSeasonNumber());
                             } else {
                                 RatingCommand.getInstance().addRating(usersArray.get(userName),
                                         videosArray.get(videoName), action.getGrade(), action.getSeasonNumber());
                                 System.out.println(action.getSeasonNumber());
                             }
                         }
+                    }
+                }
+            }
+            if (action.getActionType().equals("query")) {
+                String actionType = action.getType();
+
+                switch (actionType) {
+                    case "average" -> {
+                        actorsArray.forEach((actor -> actor.calculateRating(videosArray)));
+                        Average actorsAverage = Average.getInstance();
+
+                        LinkedList<Actor> actorLinkedList = actorsAverage.getRatingList(actorsArray, 1);
+
+                        actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getRating()));
                     }
                 }
             }

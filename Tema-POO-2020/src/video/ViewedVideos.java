@@ -18,13 +18,13 @@ public class ViewedVideos {
         return instance;
     }
 
-    public void addVideo(String vid) {
+    public void addVideo(String vid, int numberOfViews) {
         Integer a = instance.hash.get(vid);
         if(a == null) {
-            instance.hash.put(vid, 1);
+            instance.hash.put(vid, numberOfViews);
         }
         else {
-            a++;
+            a+= numberOfViews;
             instance.hash.put(vid, a);
         }
     }

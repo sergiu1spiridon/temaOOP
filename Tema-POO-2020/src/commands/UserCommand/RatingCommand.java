@@ -49,6 +49,7 @@ public class RatingCommand {
             newShowRating += i.getRating();
         }
         newShowRating /= myShow.getNumberOfSeasons();
+        myShow.setNumberOfRatings(myShow.getNumberOfRatings() + 1);
         mySeason.setRating(newShowRating);
     }
 }
