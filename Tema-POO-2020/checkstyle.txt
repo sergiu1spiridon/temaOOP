@@ -181,12 +181,9 @@ Starting audit...
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:183:114: '+' should be on a new line. [OperatorWrap]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:188:86: '3' is a magic number. [MagicNumber]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:191:33: 'if' construct must use '{}'s. [NeedBraces]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:198: Line is longer than 100 characters (found 134). [LineLength]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:200: Line is longer than 100 characters (found 135). [LineLength]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:200:135: '+' should be on a new line. [OperatorWrap]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:208:33: 'if' construct must use '{}'s. [NeedBraces]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:213: Line is longer than 100 characters (found 131). [LineLength]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:215: Line is longer than 100 characters (found 101). [LineLength]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:196: Line is longer than 100 characters (found 134). [LineLength]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:210:33: 'if' construct must use '{}'s. [NeedBraces]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Database.java:215: Line is longer than 100 characters (found 131). [LineLength]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Movie.java:5:33: '{' is not preceded with whitespace. [WhitespaceAround]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Movie.java:9:18: Parameter name should be final. [FinalParameters]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\Movie.java:9:31: Parameter year should be final. [FinalParameters]
@@ -273,4 +270,4 @@ Starting audit...
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:32:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:32:29: Parameter vid should be final. [FinalParameters]
 Audit done.
-Checkstyle ends with 273 errors.
+Checkstyle ends with 270 errors.

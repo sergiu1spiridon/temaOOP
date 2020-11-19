@@ -192,13 +192,15 @@ public class Database {
                                     ascending = -1;
 
                                 Awards actorsAwards = Awards.getInstance();
-                                System.out.println();
-                                System.out.println(awardToSearch);
 
                                 LinkedList<Actor> actorLinkedList = actorsAwards.getAwardsList(actorsArray, awardToSearch, ascending);
 
-                                actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getNumberOfAwards() +
-                                        " " + actor.getAwards()));
+                                while (actorLinkedList.size() > action.getNumber()) {
+                                    actorLinkedList.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + actorLinkedList));
                             }
 
                             case "filter_description" -> {
@@ -212,7 +214,12 @@ public class Database {
 
                                 LinkedList<Actor> filteredActors = filter.getFilteredActors(actorsArray, wordsToSearch, ascending);
 
-                                filteredActors.forEach(actor -> System.out.println(actor.getName()));
+                                while (filteredActors.size() > action.getNumber()) {
+                                    filteredActors.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + filteredActors));
                             }
                         }
                     }
