@@ -6,10 +6,14 @@ import commands.UserCommand.RatingCommand;
 import commands.UserCommand.ViewCommand;
 import commands.queries.actors.Average;
 import commands.queries.actors.Awards;
+import commands.queries.actors.FilterDescription;
 import entertainment.Season;
 import fileio.*;
+import org.json.simple.JSONArray;
 import user.User;
+import fileio.Writer;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Database {
@@ -23,11 +27,12 @@ public class Database {
     public Database(Input input) {
         this.input = input;
     }
-    public void initFields() {
+
+    public void initFields(JSONArray arrayResult, Writer fileWriter) throws IOException {
         this.setVideosArray(input);
         this.setUsersArray(input);
         this.setActorsArray(input);
-        this.getCommands(input);
+        this.getCommands(input, arrayResult, fileWriter);
 
     }
     private void setUsersArray(Input input) {
@@ -43,6 +48,7 @@ public class Database {
             Map<String, Integer> viewedByUser = myUser.getViewedVideos();
 
             viewedByUser.forEach((String k,Integer v) -> inst.addVideo(k, v));
+
 
             usersArray.put(inputUser.getUsername(), myUser);
         }
@@ -90,7 +96,7 @@ public class Database {
         }
     }
 
-    private void getCommands(Input input) {
+    private void getCommands(Input input, JSONArray arrayResult, Writer fileWriter) throws IOException {
         String videoName, userName;
         for(ActionInputData action:input.getCommands()) {
             if (action.getActionType().equals("command")) {
@@ -102,27 +108,54 @@ public class Database {
                         case "favorite" -> {
                             videoName = action.getTitle();
                             userName = action.getUsername();
-                            FavoriteCommand.getInstance().addFavorite(usersArray.get(userName),
+                            int success = FavoriteCommand.getInstance().addFavorite(usersArray.get(userName),
                                     videosArray.get(videoName));
-                            //System.out.println("In favorite");
+                            if (success == 2) {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "success -> " + videoName + " was added as favourite"));
+                            }
+                            else if (success == 1) {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "error -> " + videoName + " is already in favourite list"));
+                            }
+                            else {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "error -> " + videoName + " is not seen"));
+                            }
                         }
                         case "view" -> {
                             videoName = action.getTitle();
                             userName = action.getUsername();
                             ViewCommand.getInstance().addView(usersArray.get(userName),
                                     videosArray.get(videoName));
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "success -> " + videoName + " was viewed with total views of "
+                                            + usersArray.get(userName).getViewedVideos().get(videoName)));
                             //System.out.println("In view");
                         }
                         default -> {
                             videoName = action.getTitle();
                             userName = action.getUsername();
+                            int success;
                             if (action.getSeasonNumber() == 0) {
-                                RatingCommand.getInstance().addRating(usersArray.get(userName),
+                                success = RatingCommand.getInstance().addRating(usersArray.get(userName),
                                         videosArray.get(videoName), action.getGrade());
                             } else {
-                                RatingCommand.getInstance().addRating(usersArray.get(userName),
+                                success = RatingCommand.getInstance().addRating(usersArray.get(userName),
                                         videosArray.get(videoName), action.getGrade(), action.getSeasonNumber());
-                                //System.out.println(action.getSeasonNumber());
+                            }
+                            if (success == 0) {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "error -> " + videoName + " is not seen"));
+                            }
+                            else if (success == 1) {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "error -> " + videoName + " has been already rated"));
+                            }
+                            else {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "success -> " + videoName + " was rated with " + action.getGrade() + " by " +
+                                        userName));
                             }
                         }
                     }
@@ -144,8 +177,11 @@ public class Database {
                                 Average actorsAverage = Average.getInstance();
 
                                 LinkedList<Actor> actorLinkedList = actorsAverage.getRatingList(actorsArray, ascending);
-                                //System.out.println(actorLinkedList.size());
-                                actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getRating()));
+                                while (actorLinkedList.size() > action.getNumber()) {
+                                    actorLinkedList.remove(action.getNumber());
+                                }
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?", "Query result: " +
+                                        actorLinkedList));
                             }
 
                             case "awards" -> {
@@ -156,13 +192,34 @@ public class Database {
                                     ascending = -1;
 
                                 Awards actorsAwards = Awards.getInstance();
-                                System.out.println();
-                                System.out.println(awardToSearch);
 
                                 LinkedList<Actor> actorLinkedList = actorsAwards.getAwardsList(actorsArray, awardToSearch, ascending);
 
-                                actorLinkedList.forEach(actor -> System.out.println(actor.getName() + " " + actor.getNumberOfAwards() +
-                                        " " + actor.getAwards()));
+                                while (actorLinkedList.size() > action.getNumber()) {
+                                    actorLinkedList.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + actorLinkedList));
+                            }
+
+                            case "filter_description" -> {
+                                List<String> wordsToSearch = action.getFilters().get(2);
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc"))
+                                    ascending = -1;
+
+                                FilterDescription filter = FilterDescription.getInstance();
+
+                                LinkedList<Actor> filteredActors = filter.getFilteredActors(actorsArray, wordsToSearch, ascending);
+
+                                while (filteredActors.size() > action.getNumber()) {
+                                    filteredActors.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + filteredActors));
                             }
                         }
                     }

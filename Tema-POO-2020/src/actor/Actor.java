@@ -107,4 +107,9 @@ public class Actor {
         }
         this.setNumberOfAwards(awardNumber);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

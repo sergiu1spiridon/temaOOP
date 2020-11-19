@@ -16,27 +16,30 @@ public class RatingCommand {
         return instance;
     }
 
-    public void addRating(User user, Video video, double grade) {
+    public int addRating(User user, Video video, double grade) {
         RatedVideos videoToRate = new RatedVideos(video.getName(), 0);
         if (!user.getViewedVideos().containsKey(video.getName()))
-            return;
+            return 0;
 
         for (RatedVideos i:user.getUserRatings()) {
             if (i.equals(videoToRate))
-                return;
+                return 1;
         }
         int numOfRatings = video.getNumberOfRatings();
         video.setRating((video.getRating() * numOfRatings + grade) / (numOfRatings + 1));
         video.setNumberOfRatings(numOfRatings + 1);
         user.getUserRatings().add(videoToRate);
+        return 2;
     }
 
-    public void addRating(User user, Video video, double grade, int seasonNumber) {
+    public int addRating(User user, Video video, double grade, int seasonNumber) {
         RatedVideos videoToRate = new RatedVideos(video.getName(), seasonNumber);
-        if (!user.getViewedVideos().containsKey(video.getName()))
+        if (!user.getViewedVideos().containsKey(video.getName())) {
+            return 0;
+        }
         for (RatedVideos i:user.getUserRatings()) {
             if (i.equals(videoToRate))
-                return;
+                return 1;
         }
         Show myShow = (Show) video;
         ShowSeason mySeason = myShow.getSeasons().get(seasonNumber - 1);
@@ -46,10 +49,11 @@ public class RatingCommand {
         user.getUserRatings().add(videoToRate);
         double newShowRating = 0;
         for (ShowSeason i:myShow.getSeasons()) {
-            newShowRating += i.getRating();
+            newShowRating = newShowRating + i.getRating();
         }
-        newShowRating /= myShow.getNumberOfSeasons();
+        newShowRating = newShowRating / myShow.getNumberOfSeasons();
         myShow.setNumberOfRatings(myShow.getNumberOfRatings() + 1);
-        mySeason.setRating(newShowRating);
+        myShow.setRating(newShowRating);
+        return 2;
     }
 }

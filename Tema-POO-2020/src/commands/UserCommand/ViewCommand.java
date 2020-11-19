@@ -16,7 +16,7 @@ public class ViewCommand {
 
     public void addView(User user, Video video) {
         Integer viewCount = 0;
-        if (user.getViewedVideos().containsKey(video)) {
+        if (user.getViewedVideos().get(video.getName()) != null) {
             viewCount = user.getViewedVideos().get(video.getName());
         }
 

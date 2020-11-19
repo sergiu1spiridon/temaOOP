@@ -19,7 +19,7 @@ public class User {
         this.submisionType = submisionType;
         this.favouriteVideos = favouriteVideos;
         this.viewedVideos = viewedVideos;
-        this.userRatings = new ArrayList<RatedVideos>(0);
+        this.userRatings = new ArrayList<>(0);
     }
 
     public String getSubmisionType() {
