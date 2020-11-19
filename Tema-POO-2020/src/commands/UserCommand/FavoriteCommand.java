@@ -22,18 +22,21 @@ public class FavoriteCommand {
         return instance;
     }
 
-    public void addFavorite(User user, Video video) {
+    public int addFavorite(User user, Video video) {
         if (user == null || video == null)
-            return;
+            return 0;
         Map<String, Integer> viewedVids = user.getViewedVideos();
 
         if (viewedVids.containsKey(video.getName())) {
             ArrayList<String> favedVids = user.getFavouriteVideos();
-            if (favedVids.contains(video.getName())){
+            if (!favedVids.contains(video.getName())){
                 favedVids.add(video.getName());
                 video.setFavored(video.getFavored() + 1);
                 user.setFavouriteVideos(favedVids);
+                return 2;
             }
+            return 1;
         }
+        return 0;
     }
 }

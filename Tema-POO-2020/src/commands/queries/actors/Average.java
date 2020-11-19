@@ -51,7 +51,9 @@ public class Average {
                     break;
                 }
             }
-            newList.add(i, actor);
+            if (actor.getRating() != 0) {
+                newList.add(i, actor);
+            }
         });
         newList.remove(null);
         return newList;
