@@ -7,6 +7,7 @@ import commands.UserCommand.ViewCommand;
 import commands.queries.actors.Average;
 import commands.queries.actors.Awards;
 import commands.queries.actors.FilterDescription;
+import commands.queries.videos.*;
 import entertainment.Season;
 import fileio.*;
 import org.json.simple.JSONArray;
@@ -49,6 +50,12 @@ public class Database {
 
             viewedByUser.forEach((String k,Integer v) -> inst.addVideo(k, v));
 
+            myUser.getFavouriteVideos().forEach((videoName) -> {
+                Video video = videosArray.get(videoName);
+
+                video.setFavored(video.getFavored() + 1);
+            });
+
 
             usersArray.put(inputUser.getUsername(), myUser);
         }
@@ -56,11 +63,13 @@ public class Database {
 
     private void setVideosArray(Input input) {
         videosArray = new Hashtable<>(0);
+        ViewedVideos inst = ViewedVideos.getInstance();
 
         for (MovieInputData inputMovie:input.getMovies()
              ) {
             Movie myMovie = new Movie(inputMovie.getTitle(), inputMovie.getYear(), inputMovie.getGenres(),
                     inputMovie.getDuration());
+            inst.addVideo(myMovie.getName(), 0);
             videosArray.put(inputMovie.getTitle(), myMovie);
         }
 
@@ -78,7 +87,7 @@ public class Database {
 
             Show myShow = new Show(inputShow.getTitle(), inputShow.getYear(), inputShow.getGenres(),
                     showSeasons, inputShow.getNumberSeason());
-
+            inst.addVideo(myShow.getName(), 0);
             videosArray.put(inputShow.getTitle(), myShow);
         }
     }
@@ -195,9 +204,9 @@ public class Database {
 
                                 LinkedList<Actor> actorLinkedList = actorsAwards.getAwardsList(actorsArray, awardToSearch, ascending);
 
-                                while (actorLinkedList.size() > action.getNumber()) {
-                                    actorLinkedList.remove(action.getNumber());
-                                }
+//                                while (actorLinkedList.size() > action.getNumber()) {
+//                                    actorLinkedList.remove(action.getNumber());
+//                                }
 
                                 arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
                                         "Query result: " + actorLinkedList));
@@ -214,9 +223,9 @@ public class Database {
 
                                 LinkedList<Actor> filteredActors = filter.getFilteredActors(actorsArray, wordsToSearch, ascending);
 
-                                while (filteredActors.size() > action.getNumber()) {
-                                    filteredActors.remove(action.getNumber());
-                                }
+//                                while (filteredActors.size() > action.getNumber()) {
+//                                    filteredActors.remove(action.getNumber());
+//                                }
 
                                 arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
                                         "Query result: " + filteredActors));
@@ -224,6 +233,200 @@ public class Database {
                         }
                     }
                 }
+                else if (objectType!=null && objectType.equals("movies")) {
+
+                    String actionType = action.getCriteria();
+
+                    if (actionType != null) {
+                        switch (actionType) {
+                            case "ratings" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                MovieRating movieRating = MovieRating.getInstance();
+
+                                LinkedList<Video> moviesSorted = movieRating.getMovieList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (moviesSorted.size() > action.getNumber()) {
+                                    moviesSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + moviesSorted));
+
+                            }
+
+                            case "favorite" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                MovieFavorite movieRating = MovieFavorite.getInstance();
+
+                                LinkedList<Video> moviesSorted = movieRating.getMovieList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (moviesSorted.size() > action.getNumber()) {
+                                    moviesSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + moviesSorted));
+
+                            }
+
+                            case "longest" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                MovieLongest movieLongest = MovieLongest.getInstance();
+
+                                LinkedList<Video> moviesSorted = movieLongest.getMovieList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (moviesSorted.size() > action.getNumber()) {
+                                    moviesSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + moviesSorted));
+
+                            }
+
+                            case "most_viewed" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                MovieMostViewed movieMostViewed = MovieMostViewed.getInstance();
+
+                                LinkedList<Video> moviesSorted = movieMostViewed.getMovieList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (moviesSorted.size() > action.getNumber()) {
+                                    moviesSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + moviesSorted));
+
+                            }
+                        }
+                    }
+                }
+
+                else if (objectType!=null && objectType.equals("shows")) {
+
+                    String actionType = action.getCriteria();
+
+                    if (actionType != null) {
+                        switch (actionType) {
+                            case "ratings" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                ShowRating showRating = ShowRating.getInstance();
+
+                                LinkedList<Video> showsSorted = showRating.getShowList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (showsSorted.size() > action.getNumber()) {
+                                    showsSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + showsSorted));
+
+                            }
+
+                            case "favorite" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                ShowFavorite movieRating = ShowFavorite.getInstance();
+
+                                LinkedList<Video> showsSorted = movieRating.getShowList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (showsSorted.size() > action.getNumber()) {
+                                    showsSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + showsSorted));
+
+                            }
+
+                            case "longest" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                ShowLongest showLongest = ShowLongest.getInstance();
+
+                                videosArray.forEach((name, video) -> {
+                                    if (video instanceof Show) {
+                                        Show myShow = (Show) video;
+
+                                        myShow.calculateDuration();
+                                    }
+                                });
+
+                                LinkedList<Video> showsSorted = showLongest.getShowList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (showsSorted.size() > action.getNumber()) {
+                                    showsSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + showsSorted));
+
+                            }
+
+                            case "most_viewed" -> {
+                                int ascending = 1;
+
+                                if (action.getSortType().equals("desc")) {
+                                    ascending = -1;
+                                }
+
+                                ShowMostViewed showMostViewed = ShowMostViewed.getInstance();
+
+                                LinkedList<Video> showsSorted = showMostViewed.getShowList(videosArray, ascending, action.getFilters().get(0),
+                                        action.getFilters().get(1));
+
+                                while (showsSorted.size() > action.getNumber()) {
+                                    showsSorted.remove(action.getNumber());
+                                }
+
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "Query result: " + showsSorted));
+
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }

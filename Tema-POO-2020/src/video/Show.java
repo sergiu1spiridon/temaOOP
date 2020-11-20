@@ -7,6 +7,8 @@ public class Show extends Video{
     private ArrayList<ShowSeason> showSeasons;
     private int numberOfSeasons;
 
+    private int duration;
+
     public Show(String name, int year, ArrayList<String> genres, ArrayList<ShowSeason> showSeasons, int numberOfSeasons) {
         super(name, year, genres);
         this.showSeasons = showSeasons;
@@ -27,5 +29,10 @@ public class Show extends Video{
 
     public void setNumberOfSeasons(int numberOfSeasons) {
         this.numberOfSeasons = numberOfSeasons;
+    }
+
+    public void calculateDuration() {
+        int newDuration = this.getSeasons().stream().mapToInt(ShowSeason::getDuration).sum();
+        super.setDuration(newDuration);
     }
 }

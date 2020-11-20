@@ -9,6 +9,7 @@ public abstract class Video {
     private int favored;
     private double rating;
     private int numberOfRatings;
+    private int duration;
 
     public Video(String name, int year, ArrayList<String> genres) {
         this.name = name;
@@ -64,12 +65,16 @@ public abstract class Video {
         this.numberOfRatings = numberOfRatings;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
-        return "Video{" +
-                "title='" + name + '\'' +
-                ", year_of_debut=" + year +
-                ", genres=" + genres +
-                '}';
+        return name;
     }
 }
