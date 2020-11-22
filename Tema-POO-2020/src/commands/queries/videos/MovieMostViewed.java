@@ -91,9 +91,9 @@ public class MovieMostViewed {
                     break;
                 }
             }
-            if (allViewedHash.getVideo(video.getName()) != 0 && ok.intValue() == 1) {
-                newList.add(i, video);
-            }
+                if (allViewedHash.getVideo(video.getName()) != 0 && ok.intValue() == 1) {
+                    newList.add(i, video);
+                }
 
         });
 

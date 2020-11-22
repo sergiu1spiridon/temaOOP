@@ -424,6 +424,9 @@ Starting audit...
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:25:9: '}' at column 9 should be on the same line as the next part of a multi-block statement (one that directly contains multiple blocks: if/else-if/else, do/while or try/catch/finally). [RightCurly]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:27:14: '+=' is not preceded with whitespace. [WhitespaceAround]
 [ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:32:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:32:29: Parameter vid should be final. [FinalParameters]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:32:26: Parameter vid should be final. [FinalParameters]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:32:38: Parameter numberOfViews should be final. [FinalParameters]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:36:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] D:\probleme\temaOOP\Tema-POO-2020\.\src\video\ViewedVideos.java:36:29: Parameter vid should be final. [FinalParameters]
 Audit done.
-Checkstyle ends with 426 errors.
+Checkstyle ends with 429 errors.

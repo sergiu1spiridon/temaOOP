@@ -29,6 +29,10 @@ public class ViewedVideos {
         }
     }
 
+    public void setVideo(String vid, int numberOfViews) {
+        instance.hash.put(vid, numberOfViews);
+    }
+
     public Integer getVideo(String vid) {
         Integer a = instance.hash.get(vid);
 

@@ -69,7 +69,7 @@ public class Database {
              ) {
             Movie myMovie = new Movie(inputMovie.getTitle(), inputMovie.getYear(), inputMovie.getGenres(),
                     inputMovie.getDuration());
-            inst.addVideo(myMovie.getName(), 0);
+            inst.setVideo(myMovie.getName(), 0);
             videosArray.put(inputMovie.getTitle(), myMovie);
         }
 
@@ -87,7 +87,7 @@ public class Database {
 
             Show myShow = new Show(inputShow.getTitle(), inputShow.getYear(), inputShow.getGenres(),
                     showSeasons, inputShow.getNumberSeason());
-            inst.addVideo(myShow.getName(), 0);
+            inst.setVideo(myShow.getName(), 0);
             videosArray.put(inputShow.getTitle(), myShow);
         }
     }
