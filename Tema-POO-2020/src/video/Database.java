@@ -7,7 +7,10 @@ import commands.UserCommand.ViewCommand;
 import commands.queries.actors.Average;
 import commands.queries.actors.Awards;
 import commands.queries.actors.FilterDescription;
+import commands.queries.users.NumberOfRatingsUser;
 import commands.queries.videos.*;
+import commands.recommendtations.BestUnseen;
+import commands.recommendtations.Standard;
 import entertainment.Season;
 import fileio.*;
 import org.json.simple.JSONArray;
@@ -23,6 +26,7 @@ public class Database {
     Hashtable<String, User> usersArray;
     Hashtable<String, Video> videosArray;
     ArrayList<Actor> actorsArray;
+    ArrayList<Video> databaseOrderedVideos;
     //ArrayList<Command> commandArray
 
     public Database(Input input) {
@@ -63,6 +67,7 @@ public class Database {
 
     private void setVideosArray(Input input) {
         videosArray = new Hashtable<>(0);
+        databaseOrderedVideos = new ArrayList<>();
         ViewedVideos inst = ViewedVideos.getInstance();
 
         for (MovieInputData inputMovie:input.getMovies()
@@ -71,6 +76,7 @@ public class Database {
                     inputMovie.getDuration());
             inst.setVideo(myMovie.getName(), 0);
             videosArray.put(inputMovie.getTitle(), myMovie);
+            databaseOrderedVideos.add(myMovie);
         }
 
         for (SerialInputData inputShow:input.getSerials()
@@ -89,6 +95,7 @@ public class Database {
                     showSeasons, inputShow.getNumberSeason());
             inst.setVideo(myShow.getName(), 0);
             videosArray.put(inputShow.getTitle(), myShow);
+            databaseOrderedVideos.add(myShow);
         }
     }
 
@@ -107,7 +114,9 @@ public class Database {
 
     private void getCommands(Input input, JSONArray arrayResult, Writer fileWriter) throws IOException {
         String videoName, userName;
+
         for(ActionInputData action:input.getCommands()) {
+
             if (action.getActionType().equals("command")) {
 
                 String actionType = action.getType();
@@ -170,7 +179,7 @@ public class Database {
                     }
                 }
             }
-            if (action.getActionType().equals("query")) {
+            else if (action.getActionType().equals("query")) {
                 String objectType = action.getObjectType();
 
                 if(objectType!=null && objectType.equals("actors"))
@@ -424,6 +433,45 @@ public class Database {
 
                             }
                         }
+                    }
+                }
+                else if (objectType != null && objectType.equals("users")) {
+                    int ascending = 1;
+
+                    if (action.getSortType().equals("desc")) {
+                        ascending = -1;
+                    }
+
+                    NumberOfRatingsUser numberOfRatingsUser = NumberOfRatingsUser.getInstance();
+                    LinkedList<User> usersSorted = numberOfRatingsUser.getUserList(usersArray, ascending);
+
+                    while (usersSorted.size() > action.getNumber()) {
+                        usersSorted.remove(action.getNumber());
+                    }
+
+                    arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                            "Query result: " + usersSorted));
+                }
+
+
+            }
+            if (action.getActionType().equals("recommendation")) {
+                switch (action.getType()) {
+                    case "standard" -> {
+                        Standard standard = Standard.getInstance();
+
+                        Video videoRecommended = standard.getStandard(usersArray.get(action.getUsername()), databaseOrderedVideos);
+
+                        arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                "StandardRecommendation result: " + videoRecommended));
+                    }
+                    case "best_unseen" -> {
+                        BestUnseen bestUnseen = BestUnseen.getInstance();
+
+                        Video videoRecommended = bestUnseen.getBestUnseen(usersArray.get(action.getUsername()), databaseOrderedVideos);
+
+                        arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                "BestRatedUnseenRecommendation result: " + videoRecommended));
                     }
                 }
 

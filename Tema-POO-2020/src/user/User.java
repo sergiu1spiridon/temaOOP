@@ -13,6 +13,7 @@ public class User {
     private ArrayList<String> favouriteVideos;
     private Map<String, Integer> viewedVideos;
     private ArrayList<RatedVideos> userRatings;
+    private int numberOfRatings;
 
     public User(String userName, String submisionType, ArrayList<String> favouriteVideos, Map<String, Integer> viewedVideos) {
         this.userName = userName;
@@ -20,6 +21,7 @@ public class User {
         this.favouriteVideos = favouriteVideos;
         this.viewedVideos = viewedVideos;
         this.userRatings = new ArrayList<>(0);
+        this.numberOfRatings = 0;
     }
 
     public String getSubmisionType() {
@@ -62,13 +64,16 @@ public class User {
         this.userRatings = userRatings;
     }
 
+    public int getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(int numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", submisionType='" + submisionType + '\'' +
-                ", favouriteVideos=" + favouriteVideos +
-                ", viewedVideos=" + viewedVideos +
-                '}';
+        return userName;
     }
 }
