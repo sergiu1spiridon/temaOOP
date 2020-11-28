@@ -9,8 +9,7 @@ import commands.queries.actors.Awards;
 import commands.queries.actors.FilterDescription;
 import commands.queries.users.NumberOfRatingsUser;
 import commands.queries.videos.*;
-import commands.recommendtations.BestUnseen;
-import commands.recommendtations.Standard;
+import commands.recommendtations.*;
 import entertainment.Season;
 import fileio.*;
 import org.json.simple.JSONArray;
@@ -231,10 +230,6 @@ public class Database {
                                 FilterDescription filter = FilterDescription.getInstance();
 
                                 LinkedList<Actor> filteredActors = filter.getFilteredActors(actorsArray, wordsToSearch, ascending);
-
-//                                while (filteredActors.size() > action.getNumber()) {
-//                                    filteredActors.remove(action.getNumber());
-//                                }
 
                                 arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
                                         "Query result: " + filteredActors));
@@ -462,16 +457,89 @@ public class Database {
 
                         Video videoRecommended = standard.getStandard(usersArray.get(action.getUsername()), databaseOrderedVideos);
 
+                        if (videoRecommended != null)
                         arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
                                 "StandardRecommendation result: " + videoRecommended));
+                        else
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "StandardRecommendation cannot be applied!"));
                     }
                     case "best_unseen" -> {
                         BestUnseen bestUnseen = BestUnseen.getInstance();
 
                         Video videoRecommended = bestUnseen.getBestUnseen(usersArray.get(action.getUsername()), databaseOrderedVideos);
 
+                        if (videoRecommended != null)
                         arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
                                 "BestRatedUnseenRecommendation result: " + videoRecommended));
+                        else
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "BestRatedUnseenRecommendation cannot be applied!"));
+                    }
+                    case "popular" -> {
+                        if (usersArray.get(action.getUsername()).getSubmisionType().equals("PREMIUM")) {
+                            Popular popular = new Popular();
+
+                            popular.createGenreList(databaseOrderedVideos);
+
+                            String videoRecommended = popular.getPopular(usersArray.get(action.getUsername()));
+
+                            if (videoRecommended != null)
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "PopularRecommendation result: " + videoRecommended));
+                            else
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "PopularRecommendation cannot be applied!"));
+                        }
+                        else
+                        {
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "PopularRecommendation cannot be applied!"));
+                        }
+                    }
+                    case "favorite" -> {
+                        if (usersArray.get(action.getUsername()).getSubmisionType().equals("PREMIUM")) {
+                            Favorite favorite = new Favorite();
+
+                            Video videoRecommended = favorite.getFavorite(usersArray.get(action.getUsername()), databaseOrderedVideos);
+
+                            if (videoRecommended != null) {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "FavoriteRecommendation result: " + videoRecommended));
+                            }
+                            else {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "FavoriteRecommendation cannot be applied!"));
+                            }
+                        }
+                        else
+                        {
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "FavoriteRecommendation cannot be applied!"));
+                        }
+                    }
+                    case "search" -> {
+                        if (usersArray.get(action.getUsername()).getSubmisionType().equals("PREMIUM")) {
+
+                            Search search = new Search();
+
+                            LinkedList<Video> moviesSorted = search.getVideoList(videosArray, action.getGenre(),
+                                    usersArray.get(action.getUsername()));
+                            if (moviesSorted.size()!=0) {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "SearchRecommendation result: " + moviesSorted));
+                            }
+                            else
+                            {
+                                arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                        "SearchRecommendation cannot be applied!"));
+                            }
+                        }
+                        else
+                        {
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), "?",
+                                    "SearchRecommendation cannot be applied!"));
+                        }
                     }
                 }
 

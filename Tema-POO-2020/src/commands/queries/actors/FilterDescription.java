@@ -33,7 +33,7 @@ public class FilterDescription {
 
         for (Actor actor:actorArrayList) {
             canAdd.set(true);
-            splitDescription = actor.getCareerDescription().toLowerCase().split("\\s+|\\,|\\.");
+            splitDescription = actor.getCareerDescription().toLowerCase().split("\\s+|\\,|\\.|\\-");
             String[] finalSplitDescription = splitDescription;
             wordsToSearch.forEach(word -> {
                 if (!Arrays.stream(finalSplitDescription).anyMatch(word.toLowerCase()::equals)) {
@@ -42,7 +42,7 @@ public class FilterDescription {
             });
             if (canAdd.get()) {
                 int i = 0;
-                while (true) {
+                while (i < newList.size()) {
                     Actor actorFromList = newList.get(i);
                     if (actorFromList == null)
                         break;
@@ -62,7 +62,7 @@ public class FilterDescription {
                     }
 
                 }
-                newList.add(i, actor);
+                newList.add(i,actor);
             }
         }
         newList.remove(null);
