@@ -29,6 +29,7 @@ public class RatingCommand {
         video.setRating((video.getRating() * numOfRatings + grade) / (numOfRatings + 1));
         video.setNumberOfRatings(numOfRatings + 1);
         user.getUserRatings().add(videoToRate);
+        user.setNumberOfRatings(user.getNumberOfRatings() + 1);
         return 2;
     }
 
@@ -54,6 +55,7 @@ public class RatingCommand {
         newShowRating = newShowRating / myShow.getNumberOfSeasons();
         myShow.setNumberOfRatings(myShow.getNumberOfRatings() + 1);
         myShow.setRating(newShowRating);
+        user.setNumberOfRatings(user.getNumberOfRatings() + 1);
         return 2;
     }
 }
