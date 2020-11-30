@@ -1,11 +1,16 @@
 package commands.UserCommand;
 
 import user.User;
-import video.*;
+import video.Video;
+import video.ViewedVideos;
 
-public class ViewCommand {
+public final class ViewCommand {
     private static ViewCommand instance;
 
+    /**
+     * Method to get instance of singleton class
+     * @return
+     */
     public static ViewCommand getInstance() {
         if (instance == null) {
             instance = new ViewCommand();
@@ -14,7 +19,12 @@ public class ViewCommand {
 
     }
 
-    public void addView(User user, Video video) {
+    /**
+     * Adds video to viewed videos for user
+     * @param user
+     * @param video
+     */
+    public void addView(final User user, final Video video) {
         Integer viewCount = 0;
         if (user.getViewedVideos().get(video.getName()) != null) {
             viewCount = user.getViewedVideos().get(video.getName());

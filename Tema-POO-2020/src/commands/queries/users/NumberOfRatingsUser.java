@@ -5,12 +5,16 @@ import user.User;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-public class NumberOfRatingsUser {
+public final class NumberOfRatingsUser {
     private static NumberOfRatingsUser instance;
 
     private NumberOfRatingsUser() {
     }
 
+    /**
+     * Method to get instance of singleton class NumberOfRatings
+     * @return
+     */
     public static NumberOfRatingsUser getInstance() {
         if (instance == null) {
             instance = new NumberOfRatingsUser();
@@ -18,8 +22,15 @@ public class NumberOfRatingsUser {
         return instance;
     }
 
-    public LinkedList<User> getUserList (Hashtable<String, User> userArray, int ascending) {
-        LinkedList<User> newList= new LinkedList<User>();
+    /**
+     * Returns a list of the usres sorted by the number of ratings they have given
+     * @param userArray
+     * @param ascending
+     * @return
+     */
+    public LinkedList<User> getUserList(final Hashtable<String, User> userArray,
+                                         final int ascending) {
+        LinkedList<User> newList = new LinkedList<>(); // the list that will contain the users
         newList.add(null);
 
         userArray.forEach((userName, user) -> {
@@ -28,33 +39,34 @@ public class NumberOfRatingsUser {
 
             while (true) {
                 userFromList = newList.get(i);
-
+                // check for end of list
                 if (userFromList == null) {
                     break;
                 }
-                 if ((userFromList.getNumberOfRatings() * ascending) < (user.getNumberOfRatings() * ascending)) {
+                // ascending == 1 => asc
+                // ascending == -1 => desc
+                 if ((userFromList.getNumberOfRatings() * ascending)
+                         < (user.getNumberOfRatings() * ascending)) {
                      i++;
-                 }
-                 else if (userFromList.getNumberOfRatings() == user.getNumberOfRatings()) {
+                 } else if (userFromList.getNumberOfRatings() == user.getNumberOfRatings()) {
                      if (ascending == 1) {
                          if (userFromList.getUserName().compareTo(user.getUserName()) < 0) {
                              i++;
-                         }
-                         else
+                         } else {
                              break;
-                     }
-                     else {
+                         }
+                     } else {
                          if (userFromList.getUserName().compareTo(user.getUserName()) > 0) {
                              i++;
-                         }
-                         else
+                         } else {
                              break;
+                         }
                      }
-                 }
-                 else {
+                 } else {
                      break;
                  }
             }
+            // the users must have given at least one rating
             if (user.getNumberOfRatings() != 0) {
                 newList.add(i, user);
             }

@@ -5,12 +5,16 @@ import video.Video;
 
 import java.util.ArrayList;
 
-public class BestUnseen {
+public final class BestUnseen {
     private static BestUnseen instance;
 
     private BestUnseen() {
     }
 
+    /**
+     * Method to get instance of singleton class BestUnseen
+     * @return
+     */
     public static BestUnseen getInstance() {
         if (instance == null) {
             instance = new BestUnseen();
@@ -18,7 +22,14 @@ public class BestUnseen {
         return instance;
     }
 
-    public Video getBestUnseen(User user, ArrayList<Video> videoArrayList) {
+    /**
+     * Returns a video the user has not seen, with the best rating
+     *
+     * @param user
+     * @param videoArrayList
+     * @return
+     */
+    public Video getBestUnseen(final User user, final ArrayList<Video> videoArrayList) {
         Video videoForReturn = null;
 
         for (Video video:videoArrayList) {

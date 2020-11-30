@@ -1,21 +1,27 @@
 package commands.recommendtations;
 
 import user.User;
-import video.Movie;
 import video.Video;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Search {
+public final class Search {
     public Search() {
 
     }
 
-    public LinkedList<Video> getVideoList(Hashtable<String, Video> videosArray, String genreFilter, User user) {
+    /**
+     * Returns list of videos that have genreFilter in their genres, sorted by rating
+     * @param videosArray
+     * @param genreFilter
+     * @param user
+     * @return
+     */
+    public LinkedList<Video> getVideoList(final Hashtable<String, Video> videosArray,
+                     final String genreFilter, final User user) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -26,7 +32,7 @@ public class Search {
 
         videosArray.forEach((videoName, video) -> {
             ok.set(1);
-
+            // check for genreFiler to be in video's genres
             if (!video.getGenres().contains(genreFilter)) {
                 ok.set(0);
             }
@@ -39,15 +45,13 @@ public class Search {
                 }
                 if ((videoFromList.get().getRating()) < (video.getRating())) {
                     i++;
-                }
-                else if (videoFromList.get().getRating() == video.getRating()) {
+                } else if (videoFromList.get().getRating() == video.getRating()) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                }
-                else {
+                        }
+                } else {
                     break;
                 }
             }

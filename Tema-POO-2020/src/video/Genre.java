@@ -2,14 +2,14 @@ package video;
 
 import java.util.ArrayList;
 
-public class Genre {
+public final class Genre {
     private String genreName;
 
     private int views;
 
     private ArrayList<String> videosContained;
 
-    public Genre(String genreName) {
+    public Genre(final String genreName) {
         this.genreName = genreName;
         this.views = 0;
         videosContained = new ArrayList<>();
@@ -27,11 +27,19 @@ public class Genre {
         return videosContained;
     }
 
-    public void addViews(int viewsNumber) {
+    /**
+     * Adds views number to the genre instanc
+     * @param viewsNumber
+     */
+    public void addViews(final int viewsNumber) {
         views += viewsNumber;
     }
 
-    public void addVideosContained (String videoName) {
+    /**
+     * Adds a video to the list of videos that have the genre
+     * @param videoName
+     */
+    public void addVideosContained(final String videoName) {
         videosContained.add(videoName);
     }
 }

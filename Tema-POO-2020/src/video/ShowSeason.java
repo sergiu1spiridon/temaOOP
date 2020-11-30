@@ -1,14 +1,12 @@
 package video;
 
-import java.util.*;
-
-public class ShowSeason {
+public final class ShowSeason {
     private int currentSeason;
     private int duration;
     private double rating;
     private int numberOfRatings;
 
-    public ShowSeason(int currentSeason, int duration, List<Double> rating) {
+    public ShowSeason(final int currentSeason, final int duration) {
         this.currentSeason = currentSeason;
         this.duration = duration;
         this.rating = 0;
@@ -18,7 +16,7 @@ public class ShowSeason {
         return currentSeason;
     }
 
-    public void setCurrentSeason(int currentSeason) {
+    public void setCurrentSeason(final int currentSeason) {
         this.currentSeason = currentSeason;
     }
 
@@ -26,7 +24,7 @@ public class ShowSeason {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(final int duration) {
         this.duration = duration;
     }
 
@@ -34,7 +32,7 @@ public class ShowSeason {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(final double rating) {
         this.rating = rating;
     }
 
@@ -42,7 +40,7 @@ public class ShowSeason {
         return numberOfRatings;
     }
 
-    public void setNumberOfRatings(int numberOfRatings) {
+    public void setNumberOfRatings(final int numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
     }
 }

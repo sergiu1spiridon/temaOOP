@@ -4,19 +4,22 @@ import video.Movie;
 import video.Video;
 import video.ViewedVideos;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MovieMostViewed {
+public final class MovieMostViewed {
     private static MovieMostViewed instance;
 
     private MovieMostViewed() {
     }
 
+    /**
+     * Method to get instance of class MovieMostViewed
+     * @return
+     */
     public static MovieMostViewed getInstance() {
         if (instance == null) {
             instance = new MovieMostViewed();
@@ -24,7 +27,16 @@ public class MovieMostViewed {
         return instance;
     }
 
-    public LinkedList<Video> getMovieList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    /**
+     * Rteurns list of movies sorted by their number of views
+     * @param videosArray // array of videos, not just movies
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
+    public LinkedList<Video> getMovieList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -36,8 +48,9 @@ public class MovieMostViewed {
         AtomicInteger ok = new AtomicInteger(1);
 
         videosArray.forEach((videoName, video) -> {
-            ok.set(0);
+            ok.set(0); // will be 1 if year filter is met
 
+            // check for year filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -50,10 +63,11 @@ public class MovieMostViewed {
                     }
                 });
             }
-
+            // check for the video to be a movie
             if (!(video instanceof Movie)) {
                 ok.set(0);
             }
+            // check for genre filer. ok will be 0 if it's not met
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {
@@ -62,32 +76,32 @@ public class MovieMostViewed {
                 }
             });
 
+            // sorting
             int i = 0;
             while (true) {
                 videoFromList.set(newList.get(i));
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending) < (allViewedHash.getVideo(video.getName()) * ascending)) {
+                if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending)
+                        < (allViewedHash.getVideo(video.getName()) * ascending)) {
                     i++;
-                }
-                else if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending) == (allViewedHash.getVideo(video.getName()) * ascending)) {
+                } else if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending)
+                        == (allViewedHash.getVideo(video.getName()) * ascending)) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

@@ -9,12 +9,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MovieRating {
+public final class MovieRating {
     private static MovieRating instance;
 
     private MovieRating() {
     }
 
+    /**
+     * Method to get instance of singleton class MovieRating
+     * @return
+     */
     public static MovieRating getInstance() {
         if (instance == null) {
             instance = new MovieRating();
@@ -22,7 +26,16 @@ public class MovieRating {
         return instance;
     }
 
-    public LinkedList<Video> getMovieList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    /**
+     * Returns list of movies sorted by their ranting
+     * @param videosArray
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
+    public LinkedList<Video> getMovieList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -33,7 +46,7 @@ public class MovieRating {
 
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
-
+            // check for year filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -47,9 +60,11 @@ public class MovieRating {
                 });
             }
 
+            // video has to be a movie
             if (!(video instanceof Movie)) {
                 ok.set(0);
             }
+            // check for video to have one of the wanted genres
             genreFilter.forEach(genre -> {
                 if (!video.getGenres().contains(genre)) {
                     ok.set(0);
@@ -62,26 +77,24 @@ public class MovieRating {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((videoFromList.get().getRating() * ascending) < (video.getRating() * ascending)) {
+                if ((videoFromList.get().getRating() * ascending)
+                        < (video.getRating() * ascending)) {
                     i++;
-                }
-                else if (videoFromList.get().getRating() == video.getRating()) {
+                } else if (videoFromList.get().getRating() == video.getRating()) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

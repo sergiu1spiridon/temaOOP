@@ -5,12 +5,16 @@ import video.Video;
 
 import java.util.ArrayList;
 
-public class Standard {
+public final class Standard {
     private static Standard instance;
 
     private Standard() {
     }
 
+    /**
+     * Method to ge instance for singleton class Standard
+     * @return
+     */
     public static Standard getInstance() {
         if (instance == null) {
             instance = new Standard();
@@ -18,7 +22,13 @@ public class Standard {
         return instance;
     }
 
-    public Video getStandard(User user, ArrayList<Video> videosArray) {
+    /**
+     * Returns the first video not seen by user from the database
+     * @param user
+     * @param videosArray
+     * @return
+     */
+    public Video getStandard(final User user, final ArrayList<Video> videosArray) {
         for (Video video:videosArray) {
             if (!user.getViewedVideos().containsKey(video.getName())) {
                 return video;

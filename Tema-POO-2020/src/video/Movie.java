@@ -2,11 +2,12 @@ package video;
 
 import java.util.ArrayList;
 
-public class Movie extends Video{
+public final class Movie extends Video {
 
     private int duration;
 
-    public Movie(String name, int year, ArrayList<String> genres, int duration) {
+    public Movie(final String name, final int year, final ArrayList<String> genres,
+                 final int duration) {
         super(name, year, genres);
         this.duration = duration;
     }
@@ -15,7 +16,7 @@ public class Movie extends Video{
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(final int duration) {
         this.duration = duration;
     }
 }

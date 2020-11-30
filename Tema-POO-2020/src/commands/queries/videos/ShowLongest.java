@@ -1,22 +1,24 @@
 package commands.queries.videos;
 
-import video.Movie;
 import video.Show;
 import video.Video;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShowLongest {
+public final class ShowLongest {
     private static ShowLongest instance;
 
     private ShowLongest() {
     }
 
+    /**
+     * Method to get instance of singleton class ShowLongest
+     * @return
+     */
     public static ShowLongest getInstance() {
         if (instance == null) {
             instance = new ShowLongest();
@@ -24,7 +26,16 @@ public class ShowLongest {
         return instance;
     }
 
-    public LinkedList<Video> getShowList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    /**
+     * Returns list of shows sorted by their length
+     * @param videosArray // hashtable of videos, not just shows
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
+    public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -36,6 +47,7 @@ public class ShowLongest {
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
 
+            // check for year filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -52,6 +64,7 @@ public class ShowLongest {
             if (!(video instanceof Show)) {
                 ok.set(0);
             }
+            // check for genre filters
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {
@@ -66,26 +79,24 @@ public class ShowLongest {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((videoFromList.get().getDuration() * ascending) < (video.getDuration() * ascending)) {
+                if ((videoFromList.get().getDuration() * ascending)
+                        < (video.getDuration() * ascending)) {
                     i++;
-                }
-                else if (videoFromList.get().getDuration() == video.getDuration()) {
+                } else if (videoFromList.get().getDuration() == video.getDuration()) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

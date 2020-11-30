@@ -1,23 +1,25 @@
 package commands.queries.videos;
 
-import video.Movie;
 import video.Show;
 import video.Video;
 import video.ViewedVideos;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShowMostViewed {
+public final class ShowMostViewed {
     private static ShowMostViewed instance;
 
     private ShowMostViewed() {
     }
 
+    /**
+     * Method to get instance of class ShowMostViewed
+     * @return
+     */
     public static ShowMostViewed getInstance() {
         if (instance == null) {
             instance = new ShowMostViewed();
@@ -25,7 +27,16 @@ public class ShowMostViewed {
         return instance;
     }
 
-    public LinkedList<Video> getShowList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    /**
+     * Returns list of shows sorted by their number of views
+     * @param videosArray
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
+    public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -39,6 +50,7 @@ public class ShowMostViewed {
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
 
+            // check for the show year to be one of the years in filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -52,9 +64,12 @@ public class ShowMostViewed {
                 });
             }
 
+            // video has to be a show
             if (!(video instanceof Show)) {
                 ok.set(0);
             }
+            // check for one of the genres in filters to be
+            // in the list of genres of the show
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {
@@ -69,26 +84,25 @@ public class ShowMostViewed {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending) < (allViewedHash.getVideo(video.getName()) * ascending)) {
+                if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending)
+                        < (allViewedHash.getVideo(video.getName()) * ascending)) {
                     i++;
-                }
-                else if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending) == (allViewedHash.getVideo(video.getName()) * ascending)) {
+                } else if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending)
+                        == (allViewedHash.getVideo(video.getName()) * ascending)) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }
