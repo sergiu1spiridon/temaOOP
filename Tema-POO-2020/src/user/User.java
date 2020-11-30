@@ -1,21 +1,20 @@
 package user;
 
 import video.RatedVideos;
-import video.Video;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-public class User {
-    String userName;
-    String submisionType;
+public final class User {
+    private String userName;
+    private String submisionType;
     private ArrayList<String> favouriteVideos;
     private Map<String, Integer> viewedVideos;
     private ArrayList<RatedVideos> userRatings;
     private int numberOfRatings;
 
-    public User(String userName, String submisionType, ArrayList<String> favouriteVideos, Map<String, Integer> viewedVideos) {
+    public User(final String userName, final String submisionType,
+                final ArrayList<String> favouriteVideos, final Map<String, Integer> viewedVideos) {
         this.userName = userName;
         this.submisionType = submisionType;
         this.favouriteVideos = favouriteVideos;
@@ -28,7 +27,7 @@ public class User {
         return submisionType;
     }
 
-    public void setSubmisionType(String submisionType) {
+    public void setSubmisionType(final String submisionType) {
         this.submisionType = submisionType;
     }
 
@@ -36,7 +35,7 @@ public class User {
         return favouriteVideos;
     }
 
-    public void setFavouriteVideos(ArrayList<String> favouriteVideos) {
+    public void setFavouriteVideos(final ArrayList<String> favouriteVideos) {
         this.favouriteVideos = favouriteVideos;
     }
 
@@ -44,7 +43,7 @@ public class User {
         return viewedVideos;
     }
 
-    public void setViewedVideos(Map<String, Integer> viewedVideos) {
+    public void setViewedVideos(final Map<String, Integer> viewedVideos) {
         this.viewedVideos = viewedVideos;
     }
 
@@ -52,7 +51,7 @@ public class User {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(final String userName) {
         this.userName = userName;
     }
 
@@ -60,7 +59,7 @@ public class User {
         return userRatings;
     }
 
-    public void setUserRatings(ArrayList<RatedVideos> userRatings) {
+    public void setUserRatings(final ArrayList<RatedVideos> userRatings) {
         this.userRatings = userRatings;
     }
 
@@ -68,7 +67,7 @@ public class User {
         return numberOfRatings;
     }
 
-    public void setNumberOfRatings(int numberOfRatings) {
+    public void setNumberOfRatings(final int numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
     }
 

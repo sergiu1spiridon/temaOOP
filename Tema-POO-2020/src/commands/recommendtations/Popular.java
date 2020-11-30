@@ -6,18 +6,17 @@ import video.Video;
 import video.ViewedVideos;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Popular {
+public final class Popular {
     LinkedList<Genre> sortedGenres;
 
     public Popular() {
         sortedGenres = new LinkedList<>();
     }
 
-    public void createGenreList(ArrayList<Video> databaseVideos) {
+    public void createGenreList(final ArrayList<Video> databaseVideos) {
         ViewedVideos viewedVideos = ViewedVideos.getInstance();
         AtomicReference<Genre> genreToAddInList = new AtomicReference<>();
         databaseVideos.forEach((video) -> {
@@ -44,8 +43,9 @@ public class Popular {
 
                     if (genreFromList.getViews() > genreToAddInList.get().getViews()) {
                         i++;
-                    } else
+                    } else {
                         break;
+                    }
                 }
                 sortedGenres.add(i, genreToAddInList.get());
             }

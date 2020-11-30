@@ -1,9 +1,10 @@
 package commands.UserCommand;
 
 import user.User;
-import video.*;
+import video.Video;
+import video.ViewedVideos;
 
-public class ViewCommand {
+public final class ViewCommand {
     private static ViewCommand instance;
 
     public static ViewCommand getInstance() {
@@ -14,7 +15,7 @@ public class ViewCommand {
 
     }
 
-    public void addView(User user, Video video) {
+    public void addView(final User user, final Video video) {
         Integer viewCount = 0;
         if (user.getViewedVideos().get(video.getName()) != null) {
             viewCount = user.getViewedVideos().get(video.getName());

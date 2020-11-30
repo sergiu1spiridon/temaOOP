@@ -1,18 +1,16 @@
 package commands.queries.videos;
 
-import video.Movie;
 import video.Show;
 import video.Video;
 import video.ViewedVideos;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShowMostViewed {
+public final class ShowMostViewed {
     private static ShowMostViewed instance;
 
     private ShowMostViewed() {
@@ -25,7 +23,8 @@ public class ShowMostViewed {
         return instance;
     }
 
-    public LinkedList<Video> getShowList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -69,26 +68,25 @@ public class ShowMostViewed {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending) < (allViewedHash.getVideo(video.getName()) * ascending)) {
+                if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending)
+                        < (allViewedHash.getVideo(video.getName()) * ascending)) {
                     i++;
-                }
-                else if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending) == (allViewedHash.getVideo(video.getName()) * ascending)) {
+                } else if ((allViewedHash.getVideo(videoFromList.get().getName()) * ascending)
+                        == (allViewedHash.getVideo(video.getName()) * ascending)) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

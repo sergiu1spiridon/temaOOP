@@ -5,7 +5,7 @@ import actor.Actor;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Average {
+public final class Average {
     private static Average instance;
 
     private Average() {
@@ -18,7 +18,8 @@ public class Average {
         return instance;
     }
 
-    public LinkedList<Actor> getRatingList(ArrayList<Actor> actorsArray, int ascending) {
+    public LinkedList<Actor> getRatingList(final ArrayList<Actor> actorsArray,
+                                           final int ascending) {
         LinkedList<Actor> newList = new LinkedList<>();
         newList.add(null);
         actorsArray.forEach(actor -> {
@@ -26,28 +27,26 @@ public class Average {
             int i = 0;
             while (true) {
                 actorFromList = newList.get(i);
-                if (actorFromList == null)
+                if (actorFromList == null) {
                     break;
+                }
                 if ((actorFromList.getRating() * ascending) < (actor.getRating() * ascending)) {
                     i++;
-                }
-                else if (actorFromList.getRating() == actor.getRating()) {
+                } else if (actorFromList.getRating() == actor.getRating()) {
                     if (ascending == 1) {
                         if (actorFromList.getName().compareTo(actor.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (actorFromList.getName().compareTo(actor.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

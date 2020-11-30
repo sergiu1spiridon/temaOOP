@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Awards {
+public final class Awards {
     private static Awards instance;
 
     public Awards() {
@@ -23,7 +23,8 @@ public class Awards {
         return instance;
     }
 
-    public LinkedList<Actor> getAwardsList(ArrayList<Actor> actorsArray, List<String> awardsToSearch, int ascending) {
+    public LinkedList<Actor> getAwardsList(final ArrayList<Actor> actorsArray, final List<String>
+            awardsToSearch, final int ascending) {
         LinkedList<Actor> newList = new LinkedList<>();
         newList.add(null);
         AtomicReference<Actor> actorFromList = new AtomicReference<>();
@@ -51,26 +52,25 @@ public class Awards {
                         break;
                     }
 
-                    if ((actorFromList.get().getNumberOfAwards() * ascending) < (actor.getNumberOfAwards() * ascending)) {
+                    if ((actorFromList.get().getNumberOfAwards() * ascending)
+                            < (actor.getNumberOfAwards() * ascending)) {
                         i++;
-                    }
-                    else if (actorFromList.get().getNumberOfAwards() == actor.getNumberOfAwards()) {
+                    } else if (actorFromList.get().getNumberOfAwards()
+                            == actor.getNumberOfAwards()) {
                         if (ascending == 1) {
                             if (actorFromList.get().getName().compareTo(actor.getName()) < 0) {
                                 i++;
-                            }
-                            else
+                            } else {
                                 break;
-                        }
-                        else {
+                            }
+                        } else {
                             if (actorFromList.get().getName().compareTo(actor.getName()) > 0) {
                                 i++;
-                            }
-                            else
+                            } else {
                                 break;
+                            }
                         }
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 }

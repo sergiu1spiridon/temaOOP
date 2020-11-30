@@ -5,7 +5,7 @@ import video.Video;
 
 import java.util.ArrayList;
 
-public class BestUnseen {
+public final class BestUnseen {
     private static BestUnseen instance;
 
     private BestUnseen() {
@@ -18,7 +18,7 @@ public class BestUnseen {
         return instance;
     }
 
-    public Video getBestUnseen(User user, ArrayList<Video> videoArrayList) {
+    public Video getBestUnseen(final User user, final ArrayList<Video> videoArrayList) {
         Video videoForReturn = null;
 
         for (Video video:videoArrayList) {

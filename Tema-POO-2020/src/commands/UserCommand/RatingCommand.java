@@ -6,7 +6,7 @@ import video.Show;
 import video.ShowSeason;
 import video.Video;
 
-public class RatingCommand {
+public final class RatingCommand {
     private static RatingCommand instance;
 
     public static RatingCommand getInstance() {
@@ -16,14 +16,16 @@ public class RatingCommand {
         return instance;
     }
 
-    public int addRating(User user, Video video, double grade) {
+    public int addRating(final User user, final Video video, final double grade) {
         RatedVideos videoToRate = new RatedVideos(video.getName(), 0);
-        if (!user.getViewedVideos().containsKey(video.getName()))
+        if (!user.getViewedVideos().containsKey(video.getName())) {
             return 0;
+        }
 
         for (RatedVideos i:user.getUserRatings()) {
-            if (i.equals(videoToRate))
+            if (i.equals(videoToRate)) {
                 return 1;
+            }
         }
         int numOfRatings = video.getNumberOfRatings();
         video.setRating((video.getRating() * numOfRatings + grade) / (numOfRatings + 1));
@@ -33,14 +35,16 @@ public class RatingCommand {
         return 2;
     }
 
-    public int addRating(User user, Video video, double grade, int seasonNumber) {
+    public int addRating(final User user, final Video video, final double grade,
+                         final int seasonNumber) {
         RatedVideos videoToRate = new RatedVideos(video.getName(), seasonNumber);
         if (!user.getViewedVideos().containsKey(video.getName())) {
             return 0;
         }
         for (RatedVideos i:user.getUserRatings()) {
-            if (i.equals(videoToRate))
+            if (i.equals(videoToRate)) {
                 return 1;
+            }
         }
         Show myShow = (Show) video;
         ShowSeason mySeason = myShow.getSeasons().get(seasonNumber - 1);

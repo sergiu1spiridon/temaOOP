@@ -5,7 +5,7 @@ import user.User;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-public class NumberOfRatingsUser {
+public final class NumberOfRatingsUser {
     private static NumberOfRatingsUser instance;
 
     private NumberOfRatingsUser() {
@@ -18,8 +18,9 @@ public class NumberOfRatingsUser {
         return instance;
     }
 
-    public LinkedList<User> getUserList (Hashtable<String, User> userArray, int ascending) {
-        LinkedList<User> newList= new LinkedList<User>();
+    public LinkedList<User> getUserList(final Hashtable<String, User> userArray,
+                                         final int ascending) {
+        LinkedList<User> newList = new LinkedList<>();
         newList.add(null);
 
         userArray.forEach((userName, user) -> {
@@ -32,26 +33,24 @@ public class NumberOfRatingsUser {
                 if (userFromList == null) {
                     break;
                 }
-                 if ((userFromList.getNumberOfRatings() * ascending) < (user.getNumberOfRatings() * ascending)) {
+                 if ((userFromList.getNumberOfRatings() * ascending)
+                         < (user.getNumberOfRatings() * ascending)) {
                      i++;
-                 }
-                 else if (userFromList.getNumberOfRatings() == user.getNumberOfRatings()) {
+                 } else if (userFromList.getNumberOfRatings() == user.getNumberOfRatings()) {
                      if (ascending == 1) {
                          if (userFromList.getUserName().compareTo(user.getUserName()) < 0) {
                              i++;
-                         }
-                         else
+                         } else {
                              break;
-                     }
-                     else {
+                         }
+                     } else {
                          if (userFromList.getUserName().compareTo(user.getUserName()) > 0) {
                              i++;
-                         }
-                         else
+                         } else {
                              break;
+                         }
                      }
-                 }
-                 else {
+                 } else {
                      break;
                  }
             }

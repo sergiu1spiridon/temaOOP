@@ -3,14 +3,13 @@ package commands.queries.videos;
 import video.Movie;
 import video.Video;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MovieLongest {
+public final class MovieLongest {
     private static MovieLongest instance;
 
     private MovieLongest() {
@@ -23,7 +22,8 @@ public class MovieLongest {
         return instance;
     }
 
-    public LinkedList<Video> getMovieList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    public LinkedList<Video> getMovieList(final Hashtable<String, Video> videosArray,
+             final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -65,26 +65,24 @@ public class MovieLongest {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((videoFromList.get().getDuration() * ascending) < (video.getDuration() * ascending)) {
+                if ((videoFromList.get().getDuration() * ascending)
+                        < (video.getDuration() * ascending)) {
                     i++;
-                }
-                else if (videoFromList.get().getDuration() == video.getDuration()) {
+                } else if (videoFromList.get().getDuration() == video.getDuration()) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

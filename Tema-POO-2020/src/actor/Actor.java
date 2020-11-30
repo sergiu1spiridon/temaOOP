@@ -1,28 +1,27 @@
 package actor;
 
-import actor.ActorsAwards;
 import video.Video;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Random;
 
-public class Actor {
+public final class Actor {
 
-    private String name;
+    private final String name;
 
-    private String careerDescription;
+    private final String careerDescription;
 
-    private ArrayList<String> filmography;
+    private final ArrayList<String> filmography;
 
-    private Map<ActorsAwards, Integer> awards;
+    private final Map<ActorsAwards, Integer> awards;
 
     private int numberOfAwards;
 
     private double rating;
 
-    public Actor(String name, String careerDescription, ArrayList<String> filmography, Map<ActorsAwards, Integer> awards) {
+    public Actor(final String name, final String careerDescription, final ArrayList<String>
+            filmography, final Map<ActorsAwards, Integer> awards) {
         this.name = name;
         this.careerDescription = careerDescription;
         this.filmography = filmography;
@@ -34,61 +33,47 @@ public class Actor {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCareerDescription() {
         return careerDescription;
-    }
-
-    public void setCareerDescription(String careerDescription) {
-        this.careerDescription = careerDescription;
     }
 
     public ArrayList<String> getFilmography() {
         return filmography;
     }
 
-    public void setFilmography(ArrayList<String> filmography) {
-        this.filmography = filmography;
-    }
-
     public Map<ActorsAwards, Integer> getAwards() {
         return awards;
-    }
-
-    public void setAwards(Map<ActorsAwards, Integer> awards) {
-        this.awards = awards;
     }
 
     public double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(final double rating) {
         //Random random = new Random();
 
         //this.rating = random.nextDouble();
         this.rating = rating;
     }
 
-    public void calculateRating(Hashtable<String, Video> videosArray) {
+    public void calculateRating(final Hashtable<String, Video> videosArray) {
         double countDiffZeroRatings = 0;
         double newRating = 0;
 
         for (String vidName:this.filmography) {
             Video video = videosArray.get(vidName);
-            if (video == null)
+            if (video == null) {
                 continue;
+            }
             double videoRating = video.getRating();
             if (videoRating != 0) {
                 newRating += videoRating;
                 countDiffZeroRatings++;
             }
         }
-        if (countDiffZeroRatings != 0)
+        if (countDiffZeroRatings != 0) {
             newRating = newRating / countDiffZeroRatings;
+        }
         this.setRating(newRating);
     }
 
@@ -96,7 +81,7 @@ public class Actor {
         return numberOfAwards;
     }
 
-    public void setNumberOfAwards(int numberOfAwards) {
+    public void setNumberOfAwards(final int numberOfAwards) {
         this.numberOfAwards = numberOfAwards;
     }
 

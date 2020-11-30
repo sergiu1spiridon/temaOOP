@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public abstract class Video {
     private String name;
     private int year;
-    ArrayList<String> genres;
+    private ArrayList<String> genres;
     private int favored;
     private double rating;
     private int numberOfRatings;
     private int duration;
 
-    public Video(String name, int year, ArrayList<String> genres) {
+    public Video(final String name, final int year, final ArrayList<String> genres) {
         this.name = name;
         this.year = year;
         this.genres = genres;
@@ -21,7 +21,7 @@ public abstract class Video {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -29,7 +29,7 @@ public abstract class Video {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(final int year) {
         this.year = year;
     }
 
@@ -37,7 +37,7 @@ public abstract class Video {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
     }
 
@@ -45,7 +45,7 @@ public abstract class Video {
         return favored;
     }
 
-    public void setFavored(int favored) {
+    public void setFavored(final int favored) {
         this.favored = favored;
     }
 
@@ -53,7 +53,7 @@ public abstract class Video {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(final double rating) {
         this.rating = rating;
     }
 
@@ -61,7 +61,7 @@ public abstract class Video {
         return numberOfRatings;
     }
 
-    public void setNumberOfRatings(int numberOfRatings) {
+    public void setNumberOfRatings(final int numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
     }
 
@@ -69,7 +69,7 @@ public abstract class Video {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(final int duration) {
         this.duration = duration;
     }
 

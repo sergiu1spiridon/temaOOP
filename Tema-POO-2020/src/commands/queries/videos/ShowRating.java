@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShowRating {
+public final class ShowRating {
     private static ShowRating instance;
 
     private ShowRating() {
@@ -22,7 +22,8 @@ public class ShowRating {
         return instance;
     }
 
-    public LinkedList<Video> getShowList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -62,26 +63,24 @@ public class ShowRating {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((videoFromList.get().getRating() * ascending) < (videoFromList.get().getRating() * ascending)) {
+                if ((videoFromList.get().getRating() * ascending)
+                        < (videoFromList.get().getRating() * ascending)) {
                     i++;
-                }
-                else if (videoFromList.get().getRating() == video.getRating()) {
+                } else if (videoFromList.get().getRating() == video.getRating()) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }

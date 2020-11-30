@@ -2,14 +2,15 @@ package video;
 
 import java.util.ArrayList;
 
-public class Show extends Video{
+public final class Show extends Video {
 
     private ArrayList<ShowSeason> showSeasons;
     private int numberOfSeasons;
 
     private int duration;
 
-    public Show(String name, int year, ArrayList<String> genres, ArrayList<ShowSeason> showSeasons, int numberOfSeasons) {
+    public Show(final String name, final int year, final ArrayList<String> genres,
+                final ArrayList<ShowSeason> showSeasons, final int numberOfSeasons) {
         super(name, year, genres);
         this.showSeasons = showSeasons;
         this.numberOfSeasons = numberOfSeasons;
@@ -19,7 +20,7 @@ public class Show extends Video{
         return showSeasons;
     }
 
-    public void setSeasons(ArrayList<ShowSeason> showSeasons) {
+    public void setSeasons(final ArrayList<ShowSeason> showSeasons) {
         this.showSeasons = showSeasons;
     }
 
@@ -27,7 +28,7 @@ public class Show extends Video{
         return numberOfSeasons;
     }
 
-    public void setNumberOfSeasons(int numberOfSeasons) {
+    public void setNumberOfSeasons(final int numberOfSeasons) {
         this.numberOfSeasons = numberOfSeasons;
     }
 

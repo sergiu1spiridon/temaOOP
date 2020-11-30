@@ -1,6 +1,5 @@
 package commands.queries.videos;
 
-import video.Movie;
 import video.Show;
 import video.Video;
 
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShowFavorite {
+public final class ShowFavorite {
     private static ShowFavorite instance;
 
     private ShowFavorite() {
@@ -23,7 +22,8 @@ public class ShowFavorite {
         return instance;
     }
 
-    public LinkedList<Video> getShowList(Hashtable<String, Video> videosArray, int ascending, List<String> yearFilter, List<String> genreFilter) {
+    public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
+           final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
 
         newList.add(null);
@@ -65,26 +65,24 @@ public class ShowFavorite {
                 if (videoFromList.get() == null) {
                     break;
                 }
-                if ((videoFromList.get().getFavored() * ascending) < (video.getFavored() * ascending)) {
+                if ((videoFromList.get().getFavored() * ascending)
+                        < (video.getFavored() * ascending)) {
                     i++;
-                }
-                else if (videoFromList.get().getFavored() == video.getFavored()) {
+                } else if (videoFromList.get().getFavored() == video.getFavored()) {
                     if (ascending == 1) {
                         if (videoFromList.get().getName().compareTo(video.getName()) < 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
-                    }
-                    else {
+                        }
+                    } else {
                         if (videoFromList.get().getName().compareTo(video.getName()) > 0) {
                             i++;
-                        }
-                        else
+                        } else {
                             break;
+                        }
                     }
-                }
-                else {
+                } else {
                     break;
                 }
             }
