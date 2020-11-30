@@ -15,6 +15,10 @@ public final class ShowFavorite {
     private ShowFavorite() {
     }
 
+    /**
+     * Method to get instance of singleton ShowFavorite class
+     * @return
+     */
     public static ShowFavorite getInstance() {
         if (instance == null) {
             instance = new ShowFavorite();
@@ -22,6 +26,15 @@ public final class ShowFavorite {
         return instance;
     }
 
+    /**
+     * Returns list of shows sorted by the number of times they
+     * appear in the lists of favorite videos
+     * @param videosArray // array of videos, not just shows
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
     public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
            final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -34,7 +47,8 @@ public final class ShowFavorite {
 
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
-
+            // check for the year of the show t be one of the
+            // ones in the query
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -48,9 +62,11 @@ public final class ShowFavorite {
                 });
             }
 
+            // check for the video to be a show.
             if (!(video instanceof Show)) {
                 ok.set(0);
             }
+            // check for the genres in filter
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {
@@ -59,6 +75,7 @@ public final class ShowFavorite {
                 }
             });
 
+            // sorting
             int i = 0;
             while (true) {
                 videoFromList.set(newList.get(i));

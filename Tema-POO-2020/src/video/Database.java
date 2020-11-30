@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 
 public final class Database {
-    private Input input;
+    private final Input input;
 
     private Hashtable<String, User> usersArray;
     private Hashtable<String, Video> videosArray;
@@ -31,7 +31,8 @@ public final class Database {
         this.input = input;
     }
 
-    public void initFields(final JSONArray arrayResult, final Writer fileWriter) throws IOException {
+    public void initFields(final JSONArray arrayResult,
+                           final Writer fileWriter) throws IOException {
         this.setVideosArray(input);
         this.setUsersArray(input);
         this.setActorsArray(input);
@@ -84,8 +85,7 @@ public final class Database {
 
             for (Season inputShowSeason :inputShow.getSeasons()) {
                 currentseason++;
-                ShowSeason mySeason = new ShowSeason(currentseason, inputShowSeason.getDuration(),
-                        inputShowSeason.getRatings());
+                ShowSeason mySeason = new ShowSeason(currentseason, inputShowSeason.getDuration());
 
                 showSeasons.add(mySeason);
             }

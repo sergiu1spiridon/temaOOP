@@ -1,14 +1,12 @@
 package video;
 
-import java.util.List;
-
 public final class ShowSeason {
     private int currentSeason;
     private int duration;
     private double rating;
     private int numberOfRatings;
 
-    public ShowSeason(final int currentSeason, final int duration, final List<Double> rating) {
+    public ShowSeason(final int currentSeason, final int duration) {
         this.currentSeason = currentSeason;
         this.duration = duration;
         this.rating = 0;

@@ -15,6 +15,10 @@ public final class ShowRating {
     private ShowRating() {
     }
 
+    /**
+     * Method to get instance of singleton class ShowRating
+     * @return
+     */
     public static ShowRating getInstance() {
         if (instance == null) {
             instance = new ShowRating();
@@ -22,6 +26,14 @@ public final class ShowRating {
         return instance;
     }
 
+    /**
+     * Returns list of shows sorted by their rating
+     * @param videosArray
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
     public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
            final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -34,7 +46,7 @@ public final class ShowRating {
 
         videosArray.forEach((videoName, video) -> {
             ok.set(1);
-
+            // check for year to be in year filter list
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -51,6 +63,7 @@ public final class ShowRating {
             if (!(video instanceof Show)) {
                 ok.set(0);
             }
+            // check for one of the genres in the filter to be in the show's genre list
             genreFilter.forEach(genre -> {
                 if (!video.getGenres().contains(genre)) {
                     ok.set(0);

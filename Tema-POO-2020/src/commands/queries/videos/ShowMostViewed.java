@@ -16,6 +16,10 @@ public final class ShowMostViewed {
     private ShowMostViewed() {
     }
 
+    /**
+     * Method to get instance of class ShowMostViewed
+     * @return
+     */
     public static ShowMostViewed getInstance() {
         if (instance == null) {
             instance = new ShowMostViewed();
@@ -23,6 +27,14 @@ public final class ShowMostViewed {
         return instance;
     }
 
+    /**
+     * Returns list of shows sorted by their number of views
+     * @param videosArray
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
     public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
            final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -38,6 +50,7 @@ public final class ShowMostViewed {
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
 
+            // check for the show year to be one of the years in filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -51,9 +64,12 @@ public final class ShowMostViewed {
                 });
             }
 
+            // video has to be a show
             if (!(video instanceof Show)) {
                 ok.set(0);
             }
+            // check for one of the genres in filters to be
+            // in the list of genres of the show
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {

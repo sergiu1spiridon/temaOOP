@@ -27,10 +27,18 @@ public final class Genre {
         return videosContained;
     }
 
+    /**
+     * Adds views number to the genre instanc
+     * @param viewsNumber
+     */
     public void addViews(final int viewsNumber) {
         views += viewsNumber;
     }
 
+    /**
+     * Adds a video to the list of videos that have the genre
+     * @param videoName
+     */
     public void addVideosContained(final String videoName) {
         videosContained.add(videoName);
     }

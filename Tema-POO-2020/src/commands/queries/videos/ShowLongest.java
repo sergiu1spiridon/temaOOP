@@ -15,6 +15,10 @@ public final class ShowLongest {
     private ShowLongest() {
     }
 
+    /**
+     * Method to get instance of singleton class ShowLongest
+     * @return
+     */
     public static ShowLongest getInstance() {
         if (instance == null) {
             instance = new ShowLongest();
@@ -22,6 +26,14 @@ public final class ShowLongest {
         return instance;
     }
 
+    /**
+     * Returns list of shows sorted by their length
+     * @param videosArray // hashtable of videos, not just shows
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
     public LinkedList<Video> getShowList(final Hashtable<String, Video> videosArray,
            final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -35,6 +47,7 @@ public final class ShowLongest {
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
 
+            // check for year filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -51,6 +64,7 @@ public final class ShowLongest {
             if (!(video instanceof Show)) {
                 ok.set(0);
             }
+            // check for genre filters
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {

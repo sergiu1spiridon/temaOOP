@@ -56,6 +56,13 @@ public final class Actor {
         this.rating = rating;
     }
 
+    /**
+     *
+     * @param videosArray
+     * Goes through all of the videos in the database and if
+     * the video is in the actor's filmography, the movie's rating
+     * is added to the actors.
+     */
     public void calculateRating(final Hashtable<String, Video> videosArray) {
         double countDiffZeroRatings = 0;
         double newRating = 0;
@@ -85,6 +92,9 @@ public final class Actor {
         this.numberOfAwards = numberOfAwards;
     }
 
+    /**
+     * Calculates the number of awards the actor has
+     */
     public void calculateNumberOfAwards() {
         int awardNumber = 0;
         for (int i:awards.values()) {

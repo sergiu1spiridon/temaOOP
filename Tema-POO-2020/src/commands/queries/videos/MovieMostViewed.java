@@ -16,6 +16,10 @@ public final class MovieMostViewed {
     private MovieMostViewed() {
     }
 
+    /**
+     * Method to get instance of class MovieMostViewed
+     * @return
+     */
     public static MovieMostViewed getInstance() {
         if (instance == null) {
             instance = new MovieMostViewed();
@@ -23,6 +27,14 @@ public final class MovieMostViewed {
         return instance;
     }
 
+    /**
+     * Rteurns list of movies sorted by their number of views
+     * @param videosArray // array of videos, not just movies
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
     public LinkedList<Video> getMovieList(final Hashtable<String, Video> videosArray,
            final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -36,8 +48,9 @@ public final class MovieMostViewed {
         AtomicInteger ok = new AtomicInteger(1);
 
         videosArray.forEach((videoName, video) -> {
-            ok.set(0);
+            ok.set(0); // will be 1 if year filter is met
 
+            // check for year filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -50,10 +63,11 @@ public final class MovieMostViewed {
                     }
                 });
             }
-
+            // check for the video to be a movie
             if (!(video instanceof Movie)) {
                 ok.set(0);
             }
+            // check for genre filer. ok will be 0 if it's not met
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {
@@ -62,6 +76,7 @@ public final class MovieMostViewed {
                 }
             });
 
+            // sorting
             int i = 0;
             while (true) {
                 videoFromList.set(newList.get(i));

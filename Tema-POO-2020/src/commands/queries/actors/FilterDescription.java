@@ -15,6 +15,10 @@ public final class FilterDescription {
     public FilterDescription() {
     }
 
+    /**
+     * Method to get instance for singleton class FilterDescription
+     * @return
+     */
     public static FilterDescription getInstance() {
         if (instance == null) {
             instance = new FilterDescription();
@@ -22,6 +26,13 @@ public final class FilterDescription {
         return instance;
     }
 
+    /**
+     * Returns actors that have all the words in their description, sorted by name
+     * @param actorArrayList
+     * @param wordsToSearch
+     * @param ascending
+     * @return
+     */
     public LinkedList<Actor> getFilteredActors(final ArrayList<Actor> actorArrayList,
                              final List<String> wordsToSearch, final int ascending) {
         LinkedList<Actor> newList = new LinkedList<>();
@@ -33,14 +44,16 @@ public final class FilterDescription {
         newList.add(null);
 
         for (Actor actor:actorArrayList) {
-            canAdd.set(true);
+            canAdd.set(true); // will be false if a word is not found in the description
             splitDescription = actor.getCareerDescription().toLowerCase().split("\\s+|\\,|\\.|\\-");
             String[] finalSplitDescription = splitDescription;
+            // check for the words in description
             wordsToSearch.forEach(word -> {
                 if (!Arrays.stream(finalSplitDescription).anyMatch(word.toLowerCase()::equals)) {
                     canAdd.set(false);
                 }
             });
+            // sorting
             if (canAdd.get()) {
                 int i = 0;
                 while (i < newList.size()) {

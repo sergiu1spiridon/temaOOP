@@ -11,6 +11,10 @@ public final class NumberOfRatingsUser {
     private NumberOfRatingsUser() {
     }
 
+    /**
+     * Method to get instance of singleton class NumberOfRatings
+     * @return
+     */
     public static NumberOfRatingsUser getInstance() {
         if (instance == null) {
             instance = new NumberOfRatingsUser();
@@ -18,9 +22,15 @@ public final class NumberOfRatingsUser {
         return instance;
     }
 
+    /**
+     * Returns a list of the usres sorted by the number of ratings they have given
+     * @param userArray
+     * @param ascending
+     * @return
+     */
     public LinkedList<User> getUserList(final Hashtable<String, User> userArray,
                                          final int ascending) {
-        LinkedList<User> newList = new LinkedList<>();
+        LinkedList<User> newList = new LinkedList<>(); // the list that will contain the users
         newList.add(null);
 
         userArray.forEach((userName, user) -> {
@@ -29,10 +39,12 @@ public final class NumberOfRatingsUser {
 
             while (true) {
                 userFromList = newList.get(i);
-
+                // check for end of list
                 if (userFromList == null) {
                     break;
                 }
+                // ascending == 1 => asc
+                // ascending == -1 => desc
                  if ((userFromList.getNumberOfRatings() * ascending)
                          < (user.getNumberOfRatings() * ascending)) {
                      i++;
@@ -54,6 +66,7 @@ public final class NumberOfRatingsUser {
                      break;
                  }
             }
+            // the users must have given at least one rating
             if (user.getNumberOfRatings() != 0) {
                 newList.add(i, user);
             }

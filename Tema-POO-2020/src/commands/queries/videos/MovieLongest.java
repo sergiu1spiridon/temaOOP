@@ -15,6 +15,10 @@ public final class MovieLongest {
     private MovieLongest() {
     }
 
+    /**
+     * Method to get instance of singleton class MovieLongest
+     * @return
+     */
     public static MovieLongest getInstance() {
         if (instance == null) {
             instance = new MovieLongest();
@@ -22,6 +26,14 @@ public final class MovieLongest {
         return instance;
     }
 
+    /**
+     * Returns list of movies sorted by their length
+     * @param videosArray // hashtable of videos, not just movies
+     * @param ascending
+     * @param yearFilter
+     * @param genreFilter
+     * @return
+     */
     public LinkedList<Video> getMovieList(final Hashtable<String, Video> videosArray,
              final int ascending, final List<String> yearFilter, final List<String> genreFilter) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -34,7 +46,7 @@ public final class MovieLongest {
 
         videosArray.forEach((videoName, video) -> {
             ok.set(0);
-
+            // checkk for the year filter
             if (yearFilter != null) {
                 ok.set(0);
                 yearFilter.forEach(year -> {
@@ -48,9 +60,11 @@ public final class MovieLongest {
                 });
             }
 
+            // check for the video to be a movie
             if (!(video instanceof Movie)) {
                 ok.set(0);
             }
+            // check for the genre filter
             genreFilter.forEach(genre -> {
                 if (genre != null) {
                     if (!video.getGenres().contains(genre)) {
@@ -59,6 +73,7 @@ public final class MovieLongest {
                 }
             });
 
+            // putting the movie in it's place in the sorted list
             int i = 0;
             while (true) {
                 videoFromList.set(newList.get(i));

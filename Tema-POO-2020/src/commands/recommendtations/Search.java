@@ -13,6 +13,13 @@ public final class Search {
 
     }
 
+    /**
+     * Returns list of videos that have genreFilter in their genres, sorted by rating
+     * @param videosArray
+     * @param genreFilter
+     * @param user
+     * @return
+     */
     public LinkedList<Video> getVideoList(final Hashtable<String, Video> videosArray,
                      final String genreFilter, final User user) {
         LinkedList<Video> newList = new LinkedList<>();
@@ -25,7 +32,7 @@ public final class Search {
 
         videosArray.forEach((videoName, video) -> {
             ok.set(1);
-
+            // check for genreFiler to be in video's genres
             if (!video.getGenres().contains(genreFilter)) {
                 ok.set(0);
             }
