@@ -31,6 +31,13 @@ public final class Database {
         this.input = input;
     }
 
+    /**
+     * Call to put data from input in the arrays of videos, users, actors
+     * and execute the commands
+     * @param arrayResult
+     * @param fileWriter
+     * @throws IOException
+     */
     public void initFields(final JSONArray arrayResult,
                            final Writer fileWriter) throws IOException {
         this.setVideosArray(input);
